@@ -1,0 +1,115 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<style> 
+figure {
+	position: relative;
+	margin: 1.5em 0;
+	border-top: 1px dotted #0098d8;
+	border-bottom: 1px dotted #0098d8;
+}
+figure dt {
+	margin-top: .75em;
+} /* to check: ?? do I mean dl? */
+figure dd {
+	margin-left: 0;
+	padding-left: 0;
+}
+figure img, figure iframe {
+	margin: .75em auto;
+}
+figure blockquote {
+	margin: 1.5em 0px .75em -1.5em;
+}
+figure ul, figure ol {
+	margin: .75em 0 .75em 2em;
+}
+figure .semantic-list {
+  margin-left: 0;
+}
+figure li ul, figure li ol {
+	margin: 0 0 0 1.5em;
+}
+figure p, figure pre {
+	margin-top: .75em;
+	margin-bottom: .75em;
+}
+figure p+p {
+	margin-top: 1.5em;
+}
+figcaption {
+	clear: left;
+	margin: .75em 0;
+	text-align: left;
+	font-style: italic;
+	line-height: 1.5em;
+}
+
+
+
+</style>
+</head>
+<body onload="change_image();">   
+<script>
+var config = {
+	         "req_per_min": {
+		     "m":"20423",
+		     "resource_ids" : [13893,14116,14453,14173,14501,14346]
+		     },
+			 "thread_busy": {
+		     "m":"20419",
+		     "resource_ids" : [13908,14131,14468,14190,14516,14247,14304,14361,14564,14612]
+		     }
+			,
+			 "load_avg": {
+		     "m":"10715",
+		     "resource_ids" : [10336,10337,10338,10339,10340,10341,10343,10344,10348,10351 ]
+		     }
+             };
+function change_image(){
+	var hrs = $("#hrs").attr("value");
+	var end = new Date().valueOf();
+	var start = end - (hrs * 60 * 60 * 1000);
+	var  img_src = "http://206.80.47.65:7080/resource/MetricChart?unitUnits=0&unitScale=0&showPeak=true&showHighRange=true&showValues=true&showAverage=true&showLowRange=true&showLow=true&collectionType=0&showEvents=true&showBaseline=true&baseline=&highRange=&lowRange=&start=" + start + "&end=" + end + "&m=" + config.req_per_min.m + "&eid=3%3a" +  config.req_per_min.resource_ids.join("&eid=3%3a");
+var img_src_thread_busy = 	"http://206.80.47.65:7080/resource/MetricChart?unitUnits=0&unitScale=0&showPeak=true&showHighRange=true&showValues=true&showAverage=true&showLowRange=true&showLow=true&collectionType=0&showEvents=true&showBaseline=true&baseline=&highRange=&lowRange=&start=" + start + "&end=" + end + "&m=" + config.thread_busy.m + "&eid=3%3a" +  config.thread_busy.resource_ids.join("&eid=3%3a");
+var img_src_load_avg =  
+ "http://206.80.47.65:7080/resource/MetricChart?unitUnits=0&unitScale=0&showPeak=true&showHighRange=true&showValues=true&showAverage=true&showLowRange=true&showLow=true&collectionType=0&showEvents=true&showBaseline=true&baseline=&highRange=&lowRange=&start=" + start + "&end=" + end + "&m=" + config.load_avg.m + "&eid=1%3a" +  config.load_avg.resource_ids.join("&eid=1%3a");
+
+
+
+	$("#req_per_min").attr('src',img_src);
+	$("#thread_busy").attr('src',img_src_thread_busy);
+	$("#load_avg").attr('src',img_src_load_avg);  
+	
+	
+}
+
+</script>
+<div>
+redraw for the last <select name="hrs" id="hrs" onchange="change_image();" size="1">
+	<option value="1">1 hours</option>
+	<option value="3">3 hours</option>
+	<option value="8" selected>8 hours</option>
+	<option value="24">24 hours</option> 
+	
+</select> 
+ (attention: make sure you have logged on to hyperic in a different tab / window)  
+</div>
+<figure>
+     
+    <img id="req_per_min" src="http://www.wiscup.com/images/loading_big.gif"/>
+ <figcaption>requests per minute</figcation>      
+</figure>  
+<figure>  
+	 
+    <img id="thread_busy" src="http://www.wiscup.com/images/loading_big.gif"/>
+<figcaption>threads busy</figcaption>  
+</figure> 
+<figure>  
+	 
+    <img id="load_avg" src="http://www.wiscup.com/images/loading_big.gif"/>
+<figcaption>load avg</figcaption>  
+</figure>
+
+</body>
+</html>                 
