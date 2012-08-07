@@ -3,40 +3,15 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <style> 
 figure {
-	position: relative;
-	margin: 1.5em 0;
 	border-top: 1px dotted #0098d8;
 	border-bottom: 1px dotted #0098d8;
+	float:left;
 }
-figure dt {
-	margin-top: .75em;
-} /* to check: ?? do I mean dl? */
-figure dd {
-	margin-left: 0;
-	padding-left: 0;
+figure img {
+	margin-left: -00px;
+	width: 600px;
 }
-figure img, figure iframe {
-	margin: .75em auto;
-}
-figure blockquote {
-	margin: 1.5em 0px .75em -1.5em;
-}
-figure ul, figure ol {
-	margin: .75em 0 .75em 2em;
-}
-figure .semantic-list {
-  margin-left: 0;
-}
-figure li ul, figure li ol {
-	margin: 0 0 0 1.5em;
-}
-figure p, figure pre {
-	margin-top: .75em;
-	margin-bottom: .75em;
-}
-figure p+p {
-	margin-top: 1.5em;
-}
+
 figcaption {
 	clear: left;
 	margin: .75em 0;
@@ -44,12 +19,13 @@ figcaption {
 	font-style: italic;
 	line-height: 1.5em;
 }
+#msg{color:red}
 
 
 
 </style>
 </head>
-<body onload="change_image();">   
+<body>   
 <script>
 var config = {
 	         "req_per_min": {
@@ -66,7 +42,8 @@ var config = {
 		     "resource_ids" : [10336,10337,10338,10339,10340,10341,10343,10344,10348,10351 ]
 		     }
              };
-function change_image(){
+function redraw_image(){
+	$("#msg").show();
 	var hrs = $("#hrs").attr("value");
 	var end = new Date().valueOf();
 	var start = end - (hrs * 60 * 60 * 1000);
@@ -80,20 +57,39 @@ var img_src_load_avg =
 	$("#req_per_min").attr('src',img_src);
 	$("#thread_busy").attr('src',img_src_thread_busy);
 	$("#load_avg").attr('src',img_src_load_avg);  
-	
+	$("#msg").hide("slow"); 
 	
 }
 
+
+$(document).ready(function() {
+   redraw_image();
+   $("select").change(function() {
+     redraw_image();
+    });
+ 
+}); 
+
+window.setInterval(function(){
+  redraw_image();
+}, 5000);
+
+
+
+
+
 </script>
+<div id="msg">redrawing...</div> 
 <div>
-redraw for the last <select name="hrs" id="hrs" onchange="change_image();" size="1">
+redraw for the last <select name="hrs" id="hrs" size="1">
 	<option value="1">1 hours</option>
 	<option value="3">3 hours</option>
 	<option value="8" selected>8 hours</option>
 	<option value="24">24 hours</option> 
 	
 </select> 
- (attention: make sure you have logged on to hyperic in a different tab / window)  
+<span>(attention: make sure you have logged on to hyperic in a different tab / window)</span>
+ 
 </div>
 <figure>
      
